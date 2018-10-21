@@ -4,6 +4,7 @@
 
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION
+CD /D "%~dp0"
 SET "RETURN=0"
 
 ::处理命令行参数
@@ -41,7 +42,6 @@ SET "CFG_NAME="
 FOR /F "tokens=*" %%I IN ('%COPY_SUBDIR%') DO SET "COPY_SUBDIR=%%I"
 SET "SYNC_OPTION=%SYNC_OPTION:-=->%"
 ::开始同步
-CD /D "%~dp0"
 IF "_%RUN_MODE%" == "_SYNC" (
   :: 同步文件
   BeyondCompare\BCompare.exe /silent @BCScript\Mirror.BCScript

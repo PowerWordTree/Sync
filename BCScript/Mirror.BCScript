@@ -1,0 +1,5 @@
+option confirm:yes-to-all
+log verbose append:"%LOG_FILE%"
+criteria timestamp:10sec size
+load create:all "%LEFT_PATH%" "%RIGHT_PATH%"
+sync create-empty "%SYNC_MODE%":"%SYNC_OPTION%"

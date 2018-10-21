@@ -1,0 +1,7 @@
+option confirm:yes-to-all
+log verbose append:"%LOG_FILE%"
+criteria timestamp:10sec size
+load "%LEFT_PATH%" "%SNAPSHOT_FILE%"
+expand all
+select left.diff.files left.newer.files left.older.files left.orphan.files
+copyto left path:"%COPY_OPTION%" "%RIGHT_PATH%/%COPY_SUBDIR%"

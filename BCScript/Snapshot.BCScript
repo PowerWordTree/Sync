@@ -1,0 +1,3 @@
+option confirm:yes-to-all
+log verbose append:"%LOG_FILE%"
+snapshot path:"%LEFT_PATH%" output:"%SNAPSHOT_FILE%"

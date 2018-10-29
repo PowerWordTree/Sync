@@ -1,6 +1,6 @@
 ::目录同步脚本
 ::@author FB
-::@version 1.00
+::@version 1.01
 
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -36,8 +36,10 @@ SET "VARNAME="
 SET "VARDATA="
 ::配置执行参数
 CALL :GET_FILENAME "%CFG_FILE%" "CFG_NAME"
+CALL :GET_DATE "NOW_DATE"
 SET "SNAPSHOT_FILE=%CFG_NAME%.BCSS"
-SET "LOG_FILE=LOG\%CFG_NAME%_%DATE%.LOG"
+SET "LOG_FILE=LOG\%CFG_NAME%_%NOW_DATE%.LOG"
+SET "NOW_DATE="
 SET "CFG_NAME="
 FOR /F "tokens=*" %%I IN ('%COPY_SUBDIR%') DO SET "COPY_SUBDIR=%%I"
 SET "SYNC_OPTION=%SYNC_OPTION:-=->%"
@@ -60,6 +62,18 @@ IF "_%RUN_MODE%" == "_SYNC" (
 )
 GOTO :END
 
+
+::统一日期格式字符串
+::  参数1: 输出到变量(否则输出到屏幕)
+:GET_DATE
+FOR /F "tokens=1,2,3,* delims=/.-\ " %%A IN ("%DATE%") DO (
+  IF "_%~1" == "_" (
+    ECHO %%A-%%B-%%C
+  ) ELSE (
+    SET "%~1=%%A-%%B-%%C"
+  )
+)
+GOTO :EOF
 
 ::去空格
 ::  参数1: 目标字符串

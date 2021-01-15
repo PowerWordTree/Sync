@@ -1,10 +1,12 @@
 ::目录同步脚本
 ::@author FB
-::@version 1.01
+::@version 1.02
 
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION
 CD /D "%~dp0"
+SET "BIN=BeyondCompare\BComp.exe"
+ECHO. >BeyondCompare\BCState.xml
 SET "RETURN=0"
 
 ::处理命令行参数
@@ -46,7 +48,7 @@ SET "SYNC_OPTION=%SYNC_OPTION:-=->%"
 ::开始同步
 IF "_%RUN_MODE%" == "_SYNC" (
   :: 同步文件
-  BeyondCompare\BCompare.exe /silent @BCScript\Mirror.BCScript
+  "%BIN%" /silent @BCScript\Mirror.BCScript
   IF NOT "%ERRORLEVEL%" == "0" SET "RETURN=%ERRORLEVEL%"
 ) ELSE (
   :: 判断是否存在快照
@@ -54,10 +56,10 @@ IF "_%RUN_MODE%" == "_SYNC" (
     COPY /Y "BCScript\Empty.BCSS" "%SNAPSHOT_FILE%" 1>NUL 2>NUL
   )
   :: 复制差异文件到目标目录
-  BeyondCompare\BCompare.exe /silent @BCScript\Copyfile.BCScript
+  "%BIN%" /silent @BCScript\Copyfile.BCScript
   IF NOT "%ERRORLEVEL%" == "0" SET "RETURN=%ERRORLEVEL%"
   :: 更新快照
-  BeyondCompare\BCompare.exe /silent @BCScript\Snapshot.BCScript
+  "%BIN%" /silent @BCScript\Snapshot.BCScript
   IF NOT "%ERRORLEVEL%" == "0" SET "RETURN=%ERRORLEVEL%"
 )
 GOTO :END
